@@ -281,6 +281,12 @@ mailhogApp.controller('MailCtrl', function ($scope, $http, $sce, $timeout) {
       url += "?limit=" + $scope.itemsPerPage;
     }
     $http.get(url).success(function(data) {
+      $.each(data.items, function(k, v) {
+        var d = new Date(v.Created);
+        v.CreatedUtc = d.valueOf();
+        data.items[k] = v;
+        console.log(v);
+      });
       $scope.messages = data.items;
       $scope.totalMessages = data.total;
       $scope.countMessages = data.count;
